@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    <bean id="myBean" class="uz.pdp.MyBean" />-->
+<!--&lt;!&ndash;    <bean id="myBean2" class="uz.pdp.MyBean2">&ndash;&gt;-->
+<!--&lt;!&ndash;        <constructor-arg ref="myBean"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    </bean>&ndash;&gt;-->
+<!--    <bean id="myBean2" class="uz.pdp.MyBean2">-->
+<!--        <property name="myBean" ref="myBean" />-->
+<!--    </bean>-->
+
+
+<!--    <bean id="person" class="uz.pdp.Person">-->
+<!--        <property name="firstName" value="Ketmon" />-->
+<!--        <property name="lastName" value="Tesha" />-->
+<!--    </bean>-->
+
+    <bean id="person" class="uz.pdp.Person">
+<!--        <constructor-arg name="firstName" value="Ali" />-->
+<!--        <constructor-arg name="lastName" value="Vali" />-->
+        <constructor-arg index="0" value="Ali" />
+        <constructor-arg index="1" value="Vali" />
+        <property name="firstName" value="Ketmon" />
+        <property name="lastName" value="Tesha" />
+    </bean>
+
+
+
+</beans>
