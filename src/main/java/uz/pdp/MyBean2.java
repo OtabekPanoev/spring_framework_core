@@ -12,7 +12,7 @@ public class MyBean2 {
     }
 
     @Autowired
-    public MyBean2(MyBean myBean, String str) {
+    public MyBean2(MyBean myBean) {
         this.myBean = myBean;
     }
 
