@@ -7,7 +7,12 @@ public class Main {
 
         System.out.println("Application started");
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
-        System.out.println("Before Getting Bean from Context");
+//        context.register(MyConfig.class);
+//        context.refresh();
+
+        MyBean bean = context.getBean(MyBean.class);
+        bean.hi();
+
 
 //        MyBean bean = context.getBean(MyBean.class);
 //        System.out.println(bean);
