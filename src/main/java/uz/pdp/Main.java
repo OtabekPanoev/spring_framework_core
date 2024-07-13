@@ -1,6 +1,8 @@
 package uz.pdp;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,14 +12,25 @@ public class Main {
 //        context.register(MyConfig.class);
 //        context.refresh();
 
-        MyBean bean = context.getBean(MyBean.class);
-        bean.hi();
+//        MyBean bean = context.getBean(MyBean.class);
+//        bean.hi();
 
 
 //        MyBean bean = context.getBean(MyBean.class);
 //        System.out.println(bean);
 //        MyBean2 bean2 = context.getBean(MyBean2.class);
 //        bean2.hi();
+
+//        Datasource bean = context.getBean(Datasource.class);
+//        System.out.println(bean);
+
+//        Environment env = context.getEnvironment();
+//        System.out.println(env.getProperty("spring.datasource.password"));
+//        System.out.println(env.getProperty("spring.datasource.user"));
+//        System.out.println(env.getProperty("spring.datasource.url"));
+
+        Datasource bean = context.getBean(Datasource.class);
+        System.out.println(bean);
 
 
         context.close();
