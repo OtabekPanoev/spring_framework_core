@@ -4,6 +4,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -29,9 +31,19 @@ public class Main {
 //        System.out.println(env.getProperty("spring.datasource.user"));
 //        System.out.println(env.getProperty("spring.datasource.url"));
 
-        Datasource bean = context.getBean(Datasource.class);
-        System.out.println(bean);
+//        Datasource bean = context.getBean(Datasource.class);
+//        System.out.println(bean);
 
+
+//        Map<String, Object> systemEnvironment = context.getEnvironment()
+//                .getSystemProperties();
+//
+//        systemEnvironment.forEach((key, value) -> {
+//            System.out.println(key + "=" + value);
+//        });
+
+//        Environment environment = context.getEnvironment();
+//        System.out.println(environment.getProperty("spring.datasource.url"));
 
         context.close();
     }
