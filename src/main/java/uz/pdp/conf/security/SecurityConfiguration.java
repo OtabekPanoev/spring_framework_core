@@ -4,40 +4,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true
+)
 public class SecurityConfiguration {
 
+    public final String[] WHITE_LIST = {
+            "/book",
+            "/auth/login",
+            "/auth/register",
+    };
+
     private final CustomUserDetailsService userDetailsService;
+    private final CustomAuthenticationHandler customAuthenticationHandler;
 
     @Autowired
-    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
+    public SecurityConfiguration(CustomUserDetailsService userDetailsService, CustomAuthenticationHandler customAuthenticationHandler) {
         this.userDetailsService = userDetailsService;
+        this.customAuthenticationHandler = customAuthenticationHandler;
     }
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        http.userDetailsService(userDetailsService);
+
         http.authorizeRequests()
-                .requestMatchers(
-                        "/home/v1",
-                        "/auth/login"
-                )
+                .requestMatchers(WHITE_LIST)
                 .permitAll() // open Urls
+//                .requestMatchers("/home/admin").hasRole("ADMIN")
+//                .requestMatchers("/home/user").hasRole("USER")
                 .anyRequest()
                 .authenticated();
 
@@ -46,8 +55,10 @@ public class SecurityConfiguration {
                 .usernameParameter("uname")
                 .passwordParameter("pwd")
 //                .loginProcessingUrl("/auth/login") //
-                .defaultSuccessUrl("/home/v2", true);
+                .failureHandler(customAuthenticationHandler)
+                .defaultSuccessUrl("/home", true);
 
+        http.userDetailsService(userDetailsService);
         http.logout()
                 .logoutUrl("/auth/logout")
                 .deleteCookies("JSESSIONID")
@@ -60,7 +71,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); //
+        return new BCryptPasswordEncoder();
     }
 
 

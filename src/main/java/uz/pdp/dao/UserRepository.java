@@ -20,8 +20,8 @@ public class UserRepository {
 //    private final JdbcTemplate jdbcTemplate;
 
     public Integer save(AuthUser authUser) {
-        String sql = "INSERT INTO auth_user (username, password, role) VALUES" +
-                " (:username, :password, :role)";
+        String sql = "INSERT INTO security.auth_user (username, password) VALUES" +
+                " (:username, :password)";
 //        Map<String , Object> params = Map.of(
 //                "username", authUser.getUsername(),
 //                "password", authUser.getPassword(),
@@ -30,8 +30,7 @@ public class UserRepository {
 //        namedJdbcTemplate.update(sql, params);
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("username", authUser.getUsername())
-                .addValue("password", authUser.getPassword())
-                .addValue("role", authUser.getRole());
+                .addValue("password", authUser.getPassword());
         namedJdbcTemplate.update(sql, params);
         return 1;
     }
@@ -40,8 +39,13 @@ public class UserRepository {
         String sql = "SELECT * FROM auth_user WHERE username = :username";
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("username", username);
-        AuthUser authUser = namedJdbcTemplate.queryForObject(sql, params, BeanPropertyRowMapper.newInstance(AuthUser.class));
-        return Optional.ofNullable(authUser);
+        try {
+            AuthUser authUser = namedJdbcTemplate.queryForObject(sql, params, BeanPropertyRowMapper.newInstance(AuthUser.class));
+            return Optional.ofNullable(authUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
 }
