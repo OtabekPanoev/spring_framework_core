@@ -11,25 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uz.pdp.conf.security.CustomUserDetails;
+import uz.pdp.conf.security.SessionUser;
 import uz.pdp.model.AuthUser;
 
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 
+    private SessionUser sessionUser;
+
     @GetMapping("/me")
-    public String read(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String read(/*@AuthenticationPrincipal CustomUserDetails customUserDetails*/) {
 
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        *//*System.out.println("userDetails.getUsername() = " + userDetails.getUsername());
-        System.out.println("userDetails.getPassword() = " + userDetails.getPassword());
-        userDetails.getAuthorities().forEach(System.out::println);*//*
+        AuthUser sessionUser = SessionUser.getSessionUser()
+                .orElseThrow();
 
-        AuthUser authUser = userDetails.getAuthUser();
-        System.out.println(authUser);*/
-
-        System.out.println("customUserDetails.getAuthUser() = " + customUserDetails.getAuthUser());
+//        System.out.println("customUserDetails.getAuthUser() = " + customUserDetails.getAuthUser());
 
         return "home";
     }

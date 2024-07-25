@@ -16,5 +16,6 @@ public class AuthUser {
     private String username;
     private String password;
     private List<AuthRole> roles;
+    private boolean isEnabled;
 
 }

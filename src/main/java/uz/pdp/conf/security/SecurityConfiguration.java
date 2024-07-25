@@ -25,6 +25,7 @@ public class SecurityConfiguration {
 
     public final String[] WHITE_LIST = {
             "/book",
+            "/home/me",
             "/auth/login",
             "/auth/register",
     };
