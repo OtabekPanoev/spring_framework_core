@@ -17,4 +17,4 @@ logs/
 /mvnw.cmd
 src/main/resources/*.sql
 /files/
-!/out/
+out/
